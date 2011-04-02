@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="hello">Sélectionner le compte</string>
+    <string name="app_name">Gestionnaire de dépenses</string>
+    <string name="no_expense">No Entry Yet</string>
+    <string name="menu_insert">Add Entry</string>
+</resources>
