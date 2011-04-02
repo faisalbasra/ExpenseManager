@@ -153,4 +153,8 @@ public class EntryDbAdapter {
     public boolean updateNote(long rowId, ContentValues entry) {
         return mDb.update(DATABASE_TABLE, entry, ExpenseEntry.KEY_ROWID + "=" + rowId, null) > 0;
     }
+
+	public void flush() {
+		mDb.delete(DATABASE_TABLE, null, null);
+	}
 }

@@ -1,11 +1,8 @@
 package com.thekyz.expensemanager;
 
-import java.util.Date;
-
 import android.app.ListActivity;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.text.format.DateFormat;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.SimpleCursorAdapter;
@@ -20,9 +17,9 @@ public class ExpenseManagerActivity extends ListActivity {
         super.onCreate(savedInstanceState);
         
         setContentView(R.layout.expense_list);
-        
         mDbHelper = new EntryDbAdapter(this);
         mDbHelper.open();
+        mDbHelper.flush();
         
         fillData();
     }
@@ -56,13 +53,15 @@ public class ExpenseManagerActivity extends ListActivity {
         Cursor c = mDbHelper.fetchAllNotes();
         startManagingCursor(c);
 
-        String[] from = new String[] { ExpenseEntry.KEY_TITLE, ExpenseEntry.KEY_AMOUNT };
-        int[] to = new int[] { R.id.text1, R.id.text2 };
+        String[] from = new String[] {
+        		ExpenseEntry.KEY_DAY, ExpenseEntry.KEY_TITLE,
+        		ExpenseEntry.KEY_CATEGORY, ExpenseEntry.KEY_AMOUNT };
+        int[] to = new int[] { R.id.day, R.id.title, R.id.category, R.id.amount };
         
         // Now create an array adapter and set it to display using our row
-        SimpleCursorAdapter notes =
+        SimpleCursorAdapter expenses =
             new SimpleCursorAdapter(this, R.layout.expense_row, c, from, to);
-        setListAdapter(notes);
-		
+
+        setListAdapter(expenses);
 	}
 }

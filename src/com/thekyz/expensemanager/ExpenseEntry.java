@@ -34,7 +34,7 @@ public class ExpenseEntry {
 	public ExpenseEntry() {
 		this.mTitle = "Entry " + entryNumber++;
 		this.mDay = DateFormat.format(dateFormat, new Date()).toString();
-		this.mCategory = "";
+		this.mCategory = "Divers";
 		this.mAmount = 0.0;
 		this.mValidated = 0;
 		this.mCyclic = 0;
