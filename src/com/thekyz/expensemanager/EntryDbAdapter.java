@@ -17,6 +17,7 @@ public class EntryDbAdapter {
 
     public static final String KEY_TITLE = "title";
     public static final String KEY_DAY = "day";
+    public static final String KEY_CATEGORY = "category";
     public static final String KEY_AMOUNT = "amount";
     public static final String KEY_VALIDATED = "validated";
     public static final String KEY_CYCLIC = "cyclic";
@@ -36,9 +37,15 @@ public class EntryDbAdapter {
      * Database creation SQL statement
      */
     private static final String DATABASE_CREATE =
-        "create table " + DATABASE_TABLE + " (_id integer primary key autoincrement, "
-        + "title text not null, day text not null, amount real not null,"
-        + "validated integer not null, cyclic integer not null, comment text not null);";
+        "create table " + DATABASE_TABLE + " ("
+        + KEY_ROWID + " integer primary key autoincrement, "
+        + KEY_TITLE + " text not null, "
+        + KEY_DAY + " text not null, "
+        + KEY_CATEGORY + " text not null, "
+        + KEY_AMOUNT + " real not null,"
+        + KEY_VALIDATED + " integer not null, "
+        + KEY_CYCLIC + " integer not null, "
+        + KEY_COMMENT + " text not null);";
 
     private final Context mCtx;
 
@@ -100,17 +107,19 @@ public class EntryDbAdapter {
      * 
      * @param title title of the entry
      * @param day the day the expense was made
+     * @param category the category of this entry
      * @param amount the amount of the expense
      * @param validated 1 if the expense was validated, 0 if not
      * @param cyclic 1 if the expense is cyclic, 0 if not
      * @param comment a comment about the note
      * @return rowId or -1 if failed
      */
-    public long createEntry(String title, String day, double amount, int validated,
+    public long createEntry(String title, String day, String category, double amount, int validated,
     		int cyclic, String comment) {
         ContentValues values = new ContentValues();
         values.put(KEY_TITLE, title);
         values.put(KEY_DAY, day);
+        values.put(KEY_CATEGORY, category);
         values.put(KEY_AMOUNT, amount);
         values.put(KEY_VALIDATED, validated);
         values.put(KEY_CYCLIC, cyclic);
@@ -154,7 +163,7 @@ public class EntryDbAdapter {
         Cursor mCursor =
 
             mDb.query(true, DATABASE_TABLE, new String[] {KEY_ROWID, KEY_TITLE,
-                    KEY_DAY, KEY_AMOUNT, KEY_VALIDATED, KEY_CYCLIC, KEY_COMMENT},
+                    KEY_DAY, KEY_CATEGORY, KEY_AMOUNT, KEY_VALIDATED, KEY_CYCLIC, KEY_COMMENT},
                     KEY_ROWID + "=" + rowId, null,
                     null, null, null, null);
         if (mCursor != null) {
@@ -172,17 +181,19 @@ public class EntryDbAdapter {
      * @param rowId id of note to update
      * @param title title of the entry
      * @param day the day the expense was made
+     * @param category the category of this entry
      * @param amount the amount of the expense
      * @param validated 1 if the expense was validated, 0 if not
      * @param cyclic 1 if the expense is cyclic, 0 if not
      * @param comment a comment about the note
      * @return true if the note was successfully updated, false otherwise
      */
-    public boolean updateNote(long rowId, String title, String day, double amount, int validated,
-    		int cyclic, String comment) {
+    public boolean updateNote(long rowId, String title, String day, String category, double amount,
+    		int validated, int cyclic, String comment) {
         ContentValues args = new ContentValues();
         args.put(KEY_TITLE, title);
         args.put(KEY_DAY, day);
+        args.put(KEY_CATEGORY, category);
         args.put(KEY_AMOUNT, amount);
         args.put(KEY_VALIDATED, validated);
         args.put(KEY_CYCLIC, cyclic);

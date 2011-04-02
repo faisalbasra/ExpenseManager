@@ -50,12 +50,13 @@ public class ExpenseManagerActivity extends ListActivity {
 	private void createEntry() {
 		String title = "Entry " + mEntryNumber++;
 		String day = DateFormat.format(mDateFormat, new Date()).toString();
+		String category = "";
 		double amount = 0.0;
 		int validated = 1;
 		int cyclic = 1;
 		String comment = "";
 		
-		mDbHelper.createEntry(title, day, amount, validated, cyclic, comment);
+		mDbHelper.createEntry(title, day, category, amount, validated, cyclic, comment);
 		
 		fillData();
 	}
