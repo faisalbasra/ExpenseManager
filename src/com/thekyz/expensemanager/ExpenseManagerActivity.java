@@ -11,9 +11,7 @@ import android.view.MenuItem;
 import android.widget.SimpleCursorAdapter;
 
 public class ExpenseManagerActivity extends ListActivity {
-    private int mEntryNumber = 1;
     private EntryDbAdapter mDbHelper;
-    private String mDateFormat = "dd/MM/yy";
 	private static final int INSERT_ID = Menu.FIRST;
 	
     /** Called when the activity is first created. */
@@ -47,16 +45,8 @@ public class ExpenseManagerActivity extends ListActivity {
         return super.onOptionsItemSelected(item);
     }
 
-	private void createEntry() {
-		String title = "Entry " + mEntryNumber++;
-		String day = DateFormat.format(mDateFormat, new Date()).toString();
-		String category = "";
-		double amount = 0.0;
-		int validated = 1;
-		int cyclic = 1;
-		String comment = "";
-		
-		mDbHelper.createEntry(title, day, category, amount, validated, cyclic, comment);
+	private void createEntry() {		
+		mDbHelper.createEntry(new ExpenseEntry().getContentValues());
 		
 		fillData();
 	}
@@ -66,8 +56,8 @@ public class ExpenseManagerActivity extends ListActivity {
         Cursor c = mDbHelper.fetchAllNotes();
         startManagingCursor(c);
 
-        String[] from = new String[] { EntryDbAdapter.KEY_TITLE };
-        int[] to = new int[] { R.id.text1 };
+        String[] from = new String[] { ExpenseEntry.KEY_TITLE, ExpenseEntry.KEY_AMOUNT };
+        int[] to = new int[] { R.id.text1, R.id.text2 };
         
         // Now create an array adapter and set it to display using our row
         SimpleCursorAdapter notes =
